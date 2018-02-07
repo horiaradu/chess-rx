@@ -1,10 +1,9 @@
-function component() {
-  var element = document.createElement('div');
+import 'bootstrap';
 
-  // Lodash, now imported by this script
-  element.innerHTML = 'Hello Webpack';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './style.css';
 
-  return element;
-}
+const element = document.getElementById('app');
 
-document.body.appendChild(component());
+// Lodash, now imported by this script
+element.innerHTML = 'Hello Webpack';
