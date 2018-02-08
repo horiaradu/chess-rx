@@ -29,12 +29,32 @@ export function renderLives(state: GameState) {
     return;
   }
 
-  if (lives === 0) {
-    livesElement.innerHTML = "You're dead!";
-  } else {
+  console.log(
+    Array(lives).fill(
+      `<li><i class="fa fa-fw fa-heart" aria-hidden="true"></i></li>`,
+    ),
+  );
+
+  if (lives !== 0) {
     livesElement.innerHTML = Array(lives)
-      .fill("<li><3</li>")
+      .fill(`<li><i class="fa fa-fw fa-heart" aria-hidden="true"></i></li>`)
       .join("");
+  }
+}
+
+export function renderScore(state: GameState) {
+  const { lives, word } = state;
+
+  const won = lives !== 0 && word.every(x => x !== "_");
+  const scoreElement = document.getElementById("score");
+  if (!scoreElement) {
+    return;
+  }
+
+  if (won) {
+    scoreElement.innerHTML = "You've won!";
+  } else if (lives === 0) {
+    scoreElement.innerHTML = "You're dead!";
   }
 }
 

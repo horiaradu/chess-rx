@@ -8,10 +8,10 @@ export default interface GameState {
 export function initialState() {
   const solution = "house";
   return {
-    word: Array(solution.length + 1).fill("_"),
+    word: Array(solution.length).fill("_"),
     letters: [],
     solution,
-    lives: 3
+    lives: 3,
   };
 }
 
@@ -26,6 +26,6 @@ export function addLetter(letter: string, state: GameState) {
       }
       return w;
     }),
-    lives: containsLetter ? state.lives : state.lives - 1
+    lives: containsLetter ? state.lives : state.lives - 1,
   };
 }

@@ -3,6 +3,8 @@ import "bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./style.css";
 
+import "font-awesome/css/font-awesome.css";
+
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import { fromEvent } from "rxjs/observable/fromEvent";
@@ -16,8 +18,9 @@ import GameState, { addLetter, initialState } from "./models/game-state";
 import {
   enableInput,
   renderLetters,
+  renderLives,
+  renderScore,
   renderWord,
-  renderLives
 } from "./renderer";
 
 function inputObservable(): Observable<string> {
@@ -29,7 +32,7 @@ function inputObservable(): Observable<string> {
   return fromEvent<KeyboardEvent>(letterInput, "keyup").pipe(
     map(e => (e.target as HTMLInputElement).value),
     filter(s => s.length > 0),
-    distinctUntilChanged()
+    distinctUntilChanged(),
   );
 }
 
@@ -38,7 +41,7 @@ const stateSubject = new BehaviorSubject<GameState>(initialState());
 inputObservable()
   .pipe(
     withLatestFrom(stateSubject),
-    map(([key, currentState]) => addLetter(key, currentState))
+    map(([key, currentState]) => addLetter(key, currentState)),
   )
   .subscribe(nextState => stateSubject.next(nextState));
 
@@ -46,5 +49,8 @@ stateSubject.subscribe(state => {
   renderLetters(state);
   renderWord(state);
   renderLives(state);
+
+  renderScore(state);
+
   enableInput(state);
 });
