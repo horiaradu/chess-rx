@@ -29,17 +29,9 @@ export function renderLives(state: GameState) {
     return;
   }
 
-  console.log(
-    Array(lives).fill(
-      `<li><i class="fa fa-fw fa-heart" aria-hidden="true"></i></li>`,
-    ),
-  );
-
-  if (lives !== 0) {
-    livesElement.innerHTML = Array(lives)
-      .fill(`<li><i class="fa fa-fw fa-heart" aria-hidden="true"></i></li>`)
-      .join("");
-  }
+  livesElement.innerHTML = Array(lives)
+    .fill(`<li><i class="fa fa-fw fa-heart" aria-hidden="true"></i></li>`)
+    .join("");
 }
 
 export function renderScore(state: GameState) {
