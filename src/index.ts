@@ -22,9 +22,9 @@ function inputObservable(): Observable<string> {
   }
 
   return fromEvent<KeyboardEvent>(letterInput, "keyup").pipe(
-    map((e) => (e.target as HTMLInputElement).value),
-    filter((s) => s.length > 0),
-    distinctUntilChanged(),
+    map(e => (e.target as HTMLInputElement).value),
+    filter(s => s.length > 0),
+    distinctUntilChanged()
   );
 }
 
@@ -32,13 +32,12 @@ const stateSubject = new BehaviorSubject<GameState>(initialState());
 
 inputObservable()
   .pipe(
-  withLatestFrom(stateSubject),
-  map(([key, currentState]) => addLetter(key, currentState)),
+    withLatestFrom(stateSubject),
+    map(([key, currentState]) => addLetter(key, currentState))
   )
-  .subscribe((nextState) => stateSubject.next(nextState));
+  .subscribe(nextState => stateSubject.next(nextState));
 
-stateSubject
-  .subscribe((state) => {
-    renderLetters(state);
-    renderWord(state);
-  });
+stateSubject.subscribe(state => {
+  renderLetters(state);
+  renderWord(state);
+});
