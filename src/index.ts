@@ -12,7 +12,7 @@ import { filter } from "rxjs/operators/filter";
 import { map } from "rxjs/operators/map";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 
-import GameState, { initialState } from "./models/game-state";
+import GameState, { addLetter, initialState } from "./models/game-state";
 import { renderLetters, renderWord } from "./renderer";
 
 function inputObservable(): Observable<string> {
@@ -33,10 +33,9 @@ const stateSubject = new BehaviorSubject<GameState>(initialState());
 inputObservable()
   .pipe(
   withLatestFrom(stateSubject),
+  map(([key, currentState]) => addLetter(key, currentState)),
   )
-  .subscribe(([key, currentState]) => {
-    stateSubject.next({ ...currentState, letters: [key, ...currentState.letters] });
-  });
+  .subscribe((nextState) => stateSubject.next(nextState));
 
 stateSubject
   .subscribe((state) => {
