@@ -13,7 +13,12 @@ import { map } from "rxjs/operators/map";
 import { withLatestFrom } from "rxjs/operators/withLatestFrom";
 
 import GameState, { addLetter, initialState } from "./models/game-state";
-import { renderLetters, renderWord } from "./renderer";
+import {
+  enableInput,
+  renderLetters,
+  renderWord,
+  renderLives
+} from "./renderer";
 
 function inputObservable(): Observable<string> {
   const letterInput = document.getElementById("letter-input");
@@ -40,4 +45,6 @@ inputObservable()
 stateSubject.subscribe(state => {
   renderLetters(state);
   renderWord(state);
+  renderLives(state);
+  enableInput(state);
 });

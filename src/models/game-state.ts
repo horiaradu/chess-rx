@@ -1,26 +1,31 @@
 export default interface GameState {
-  word: string;
+  word: string[];
   solution: string;
   letters: string[];
+  lives: number;
 };
 
 export function initialState() {
   const solution = "house";
-  return { word: Array(solution.length + 1).join("_"), letters: [], solution };
+  return {
+    word: Array(solution.length + 1).fill("_"),
+    letters: [],
+    solution,
+    lives: 3
+  };
 }
 
 export function addLetter(letter: string, state: GameState) {
+  const containsLetter = state.solution.indexOf(letter) !== -1;
   return {
     ...state,
     letters: [letter, ...state.letters],
-    word: state.word
-      .split("")
-      .map((w, idx) => {
-        if (w === "_" && state.solution[idx] === letter) {
-          return letter;
-        }
-        return w;
-      })
-      .join("")
+    word: state.word.map((w, idx) => {
+      if (w === "_" && state.solution[idx] === letter) {
+        return letter;
+      }
+      return w;
+    }),
+    lives: containsLetter ? state.lives : state.lives - 1
   };
 }
